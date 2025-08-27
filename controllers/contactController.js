@@ -17,6 +17,7 @@ const handleContactForm = async (req, res) => {
           };
           
           await transporter.sendMail(mailOptions);
+          console.log("Email sent successfully to", process.env.RECEIVER_EMAIL);
           res.status(200).json({ msg: "Message sent successfully!" });
       }
       catch (error) {
