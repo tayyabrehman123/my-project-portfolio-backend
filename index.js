@@ -13,13 +13,28 @@ const allowedOrigins = [
   process.env.FRONTEND_URL // prod
 ];
 
+
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ["Content-Type"],
   credentials: true,
   optionsSuccessStatus: 200
 }));
+
+// app.use(cors({
+//   origin: allowedOrigins,
+//   methods: ['GET', 'POST', 'OPTIONS'],
+//   allowedHeaders: ["Content-Type"],
+//   credentials: true,
+//   optionsSuccessStatus: 200
+// }));
 
 app.get('/', (req, res) => {
   res.json({ status: 'Server is running'});
